@@ -56,6 +56,41 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
 });
 
+// Password hashing
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+  next();
+});
+
+// Set passwordChangedAt when the user changes his password
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+// Instance method: available in all document in a certain collection
+userSchema.methods.checkPassword = async function (
+  givenPassword,
+  storedPassword
+) {
+  return await bcrypt.compare(givenPassword, storedPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (JWTIssuedAt) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTIssuedAt < changedTimeStamp;
+  }
+  // False means password not changed.
+  return false;
+};
+
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;
