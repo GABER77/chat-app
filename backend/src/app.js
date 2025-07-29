@@ -8,6 +8,9 @@ const app = express();
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
+// Format all responses with API version and data wrapper
+app.use(formatResponse);
+
 // >>>>>>>>>>>>>>>>>>>>>>>>> ROUTES >>>>>>>>>>>>>>>>>>>>>>>>>
 
 app.use('/api/auth', authRouter);
