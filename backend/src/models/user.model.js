@@ -71,6 +71,12 @@ userSchema.pre('save', function (next) {
   next();
 });
 
+// Exclude the fields from all find queries (find, findOne, findAll, etc.)
+userSchema.pre(/^find/, function (next) {
+  this.select('-__v');
+  next();
+});
+
 // Instance method: available in all document in a certain collection
 userSchema.methods.checkPassword = async function (
   givenPassword,
