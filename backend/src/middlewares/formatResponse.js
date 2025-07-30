@@ -4,10 +4,13 @@ const formatResponse = (req, res, next) => {
   const originalJson = res.json.bind(res);
 
   // Override res.json
-  res.json = (data) => {
+  res.json = (body) => {
+    const { status, ...data } = body;
+
     const formatted = {
       apiVersion: process.env.API_VERSION || 'unknown',
-      data,
+      status: status || 'unknown',
+      data: data,
     };
 
     return originalJson(formatted);

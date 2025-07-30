@@ -1,6 +1,7 @@
 import express from 'express';
 
 import authRouter from './routes/auth.routes.js';
+import formatResponse from './middlewares/formatResponse.js';
 
 const app = express();
 
