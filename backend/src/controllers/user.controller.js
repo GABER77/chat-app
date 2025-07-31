@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import catchAsync from '../utils/catchAsync.js';
 import CustomError from '../utils/customError.js';
+import filterObject from '../utils/filterObject.js';
 
 const updateMe = catchAsync(async (req, res, next) => {
   // 1) Check if the user didn't provide data to update
@@ -40,8 +41,16 @@ const updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+const getMe = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    status: 'success',
+    user: req.user,
+  });
+});
+
 const userController = {
   updateMe,
+  getMe,
 };
 
 export default userController;

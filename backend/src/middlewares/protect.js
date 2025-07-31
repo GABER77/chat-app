@@ -30,7 +30,7 @@ const protect = catchAsync(async (req, res, next) => {
   }
 
   // 4) Check if user changed his password after the token was issued
-  if (currentUser.changedPasswordAfter(decoded.iat)) {
+  if (currentUser.isPasswordChangedAfter(decoded.iat)) {
     throw new CustomError(
       'User recently changed password, Please login again',
       401

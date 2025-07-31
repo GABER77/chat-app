@@ -9,6 +9,8 @@ const router = express.Router();
 // Protect all routes that come after this middleware
 router.use(protect);
 
+router.get('/me', userController.getMe);
+
 router.patch(
   '/update-me',
   uploadImageToBuffer,
