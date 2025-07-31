@@ -22,4 +22,4 @@ const upload = multer({
   },
 });
 
-export default upload;
+export const uploadImageToBuffer = upload.single('image');

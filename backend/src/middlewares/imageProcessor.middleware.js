@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import streamifier from 'streamifier';
 import catchAsync from '../utils/catchAsync.js';
 
-export const resizeUserPhoto = catchAsync(async (req, res, next) => {
+const resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   // 1. Resize and compress
@@ -42,3 +42,5 @@ export const resizeUserPhoto = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+export default resizeUserPhoto;
