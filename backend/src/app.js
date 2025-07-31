@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import formatResponse from './middlewares/formatResponse.js';
+import globalErrorHandler from './utils/globalErrorHandler.js';
 
 const app = express();
 
@@ -23,5 +24,7 @@ app.use(formatResponse);
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+
+app.use(globalErrorHandler);
 
 export default app;

@@ -15,7 +15,7 @@ const updateMe = catchAsync(async (req, res, next) => {
   // 2) Create error if user post a password data
   if (req.body.password || req.body.passwordConfirm) {
     throw new CustomError(
-      'This route is not for password update, Please use / update-password',
+      'This route is not for password update, Please use /update-password',
       400
     );
   }
