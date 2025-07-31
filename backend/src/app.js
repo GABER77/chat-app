@@ -1,10 +1,11 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-import authRouter from './routes/auth.routes.js';
-import userRouter from './routes/user.routes.js';
 import formatResponse from './middlewares/formatResponse.middleware.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
+import authRouter from './routes/auth.routes.js';
+import userRouter from './routes/user.routes.js';
+import messageRouter from './routes/message.routes.js';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(formatResponse);
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/messages', messageRouter);
 
 app.use(globalErrorHandler);
 
