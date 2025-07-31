@@ -3,8 +3,11 @@ import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes.js';
 import formatResponse from './middlewares/formatResponse.js';
+import userController from './controllers/user.controller.js';
 
 const app = express();
+
+// >>>>>>>>>>>>>>>>>>>>>>>>> GLOBAL MIDDLEWARE >>>>>>>>>>>>>>>>>>>>>>>>>
 
 // Body parser, Reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -19,5 +22,6 @@ app.use(formatResponse);
 // >>>>>>>>>>>>>>>>>>>>>>>>> ROUTES >>>>>>>>>>>>>>>>>>>>>>>>>
 
 app.use('/api/auth', authRouter);
+app.use('/api/users', userController);
 
 export default app;
