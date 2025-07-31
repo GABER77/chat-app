@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
-import formatResponse from './middlewares/formatResponse.js';
+import formatResponse from './middlewares/formatResponse.middleware.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
 
 const app = express();

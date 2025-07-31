@@ -2,7 +2,7 @@ import express from 'express';
 import userController from '../controllers/user.controller.js';
 import { uploadImageToBuffer } from '../middlewares/upload.middleware.js';
 import resizeUserPhoto from '../middlewares/imageProcessor.middleware.js';
-import protect from '../middlewares/protect.js';
+import protect from '../middlewares/protect.middleware.js';
 
 const router = express.Router();
 
