@@ -2,8 +2,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes.js';
+import userRouter from './routes/user.routes.js';
 import formatResponse from './middlewares/formatResponse.js';
-import userController from './controllers/user.controller.js';
 
 const app = express();
 
@@ -22,6 +22,6 @@ app.use(formatResponse);
 // >>>>>>>>>>>>>>>>>>>>>>>>> ROUTES >>>>>>>>>>>>>>>>>>>>>>>>>
 
 app.use('/api/auth', authRouter);
-app.use('/api/users', userController);
+app.use('/api/users', userRouter);
 
 export default app;
