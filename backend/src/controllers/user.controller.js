@@ -26,7 +26,7 @@ const updateMe = catchAsync(async (req, res, next) => {
     'name',
     'email',
     'cloudinaryFolder',
-    'image'
+    'profileImage'
   );
 
   // 4) Update user data

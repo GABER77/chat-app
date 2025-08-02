@@ -1,14 +1,21 @@
-import Chat from '../models/Chat.js';
-import Message from '../models/Message.js';
+import uploadImageToCloudinary from '../middlewares/imageProcessor.middleware.js';
+import Chat from '../models/chat.model.js';
+import Message from '../models/message.model.js';
 import catchAsync from '../utils/catchAsync.js';
+import CustomError from '../utils/customError.js';
 
-// POST /api/messages - Send a message and create chat if needed
 const sendMessage = catchAsync(async (req, res, next) => {
-  const { receiver, text, image } = req.body;
+  const { receiver, text } = req.body;
   const sender = req.user._id;
 
+  // Validate receiver
+  if (!receiver) {
+    throw new CustomError('Receiver is required', 400);
+  }
+
+  // Prevent sending message to self
   if (receiver.toString() === sender.toString()) {
-    return next(new CustomError("You can't send messages to yourself", 400));
+    throw new CustomError("You can't send messages to yourself", 400);
   }
 
   // Find or create a chat between the two users
@@ -21,13 +28,27 @@ const sendMessage = catchAsync(async (req, res, next) => {
     chat = await Chat.create({ participants: [sender, receiver] });
   }
 
+  // Attach chatId to req.body so it can be used in the folder path for cloudinary
+  req.body.chatId = chat._id;
+
+  // Upload image to Cloudinary after chatId is known
+  await new Promise((resolve, reject) => {
+    uploadImageToCloudinary({
+      folderPath: (req) => `chatApp/messages/${req.body.chatId}`,
+      imageName: 'image',
+    })(req, res, (err) => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
+
   // Create the message
   const message = await Message.create({
     chatId: chat._id,
     sender,
     receiver,
     text,
-    image,
+    image: req.body.image,
   });
 
   // Update chat with last message
@@ -40,7 +61,6 @@ const sendMessage = catchAsync(async (req, res, next) => {
   });
 });
 
-// GET /api/messages/:chatId - Get all messages in a chat
 const getMessages = catchAsync(async (req, res, next) => {
   const messages = await Message.find({ chatId: req.params.chatId })
     .sort('createdAt')

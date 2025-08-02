@@ -1,7 +1,7 @@
 import express from 'express';
 import userController from '../controllers/user.controller.js';
 import { uploadImageToBuffer } from '../middlewares/upload.middleware.js';
-import resizeUserPhoto from '../middlewares/imageProcessor.middleware.js';
+import uploadImageToCloudinary from '../middlewares/imageProcessor.middleware.js';
 import protect from '../middlewares/protect.middleware.js';
 
 const router = express.Router();
@@ -13,8 +13,11 @@ router.get('/me', userController.getMe);
 
 router.patch(
   '/update-me',
-  uploadImageToBuffer,
-  resizeUserPhoto,
+  uploadImageToBuffer('profileImage'),
+  uploadImageToCloudinary({
+    folderPath: (req) => `chatApp/users/${req.user.id}`,
+    imageName: 'profileImage',
+  }),
   userController.updateMe
 );
 

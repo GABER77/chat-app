@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import formatResponse from './middlewares/formatResponse.middleware.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
 import authRouter from './routes/auth.routes.js';
-import chatRoutes from './routes/chat.routes.js';
+import chatRouter from './routes/chat.routes.js';
 import userRouter from './routes/user.routes.js';
 import messageRouter from './routes/message.routes.js';
 
@@ -26,7 +26,7 @@ app.use(formatResponse);
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
-app.use('/api/chats', chatRoutes);
+app.use('/api/chats', chatRouter);
 app.use('/api/messages', messageRouter);
 
 app.use(globalErrorHandler);

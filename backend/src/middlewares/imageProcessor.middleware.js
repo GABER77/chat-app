@@ -3,44 +3,49 @@ import { v2 as cloudinary } from 'cloudinary';
 import streamifier from 'streamifier';
 import catchAsync from '../utils/catchAsync.js';
 
-const resizeUserPhoto = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
+const uploadImageToCloudinary = ({ folderPath, imageName }) => {
+  return catchAsync(async (req, res, next) => {
+    if (!req.file) return next();
 
-  // 1. Resize and compress
-  const processedImageBuffer = await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toBuffer();
+    // 1. Resize and compress
+    const processedImageBuffer = await sharp(req.file.buffer)
+      .resize(500, 500)
+      .toFormat('jpeg')
+      .jpeg({ quality: 90 })
+      .toBuffer();
 
-  // 2. Set a consistent Cloudinary folder and public_id(Image Name)
-  const userFolder = `chatApp/users/${req.user.id}`;
-  const imageName = 'profileImage';
+    // 2. Set a consistent Cloudinary folder and public_id(Image Name)
+    const timestamp = Date.now();
+    const public_id = `${imageName}_${timestamp}`;
 
-  // 3. Upload the image buffer
-  const streamUpload = () =>
-    new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        {
-          folder: userFolder,
-          public_id: imageName,
-          resource_type: 'image',
-        },
-        (err, result) => {
-          if (err) return reject(err);
-          resolve(result.secure_url);
-        }
-      );
+    // Evaluate the folder path
+    const resolvedFolderPath = folderPath(req);
 
-      // Convert buffer into a readable stream and pipe it to Cloudinary
-      streamifier.createReadStream(processedImageBuffer).pipe(stream);
-    });
+    // 3. Upload the image buffer
+    const streamUpload = () =>
+      new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: resolvedFolderPath,
+            public_id: public_id,
+            resource_type: 'image',
+          },
+          (err, result) => {
+            if (err) return reject(err);
+            resolve(result.secure_url);
+          }
+        );
 
-  // 4. Attach data to req.body
-  req.body.image = await streamUpload();
-  req.body.cloudinaryFolder = userFolder;
+        // Convert buffer into a readable stream and pipe it to Cloudinary
+        streamifier.createReadStream(processedImageBuffer).pipe(stream);
+      });
 
-  next();
-});
+    // 4. Attach data to req.body
+    req.body[imageName] = await streamUpload();
+    req.body.cloudinaryFolder = resolvedFolderPath;
 
-export default resizeUserPhoto;
+    next();
+  });
+};
+
+export default uploadImageToCloudinary;

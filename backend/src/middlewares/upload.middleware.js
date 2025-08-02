@@ -18,8 +18,10 @@ const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
   limits: {
-    fileSize: 2 * 1024 * 1024,
+    fileSize: 2 * 1024 * 1024, // 2MB
   },
 });
 
-export const uploadImageToBuffer = upload.single('profileImage');
+// Usage: uploadImageToBuffer('profileImage')
+// or for chat image: uploadImageToBuffer('image')
+export const uploadImageToBuffer = (fieldName) => upload.single(fieldName);
