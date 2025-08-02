@@ -1,6 +1,6 @@
 import express from 'express';
 import chatController from '../controllers/chat.controller.js';
-import protect from '../middlewares/protect.middleware.js';
+import protect from '../middlewares/protect.js';
 
 const router = express.Router();
 

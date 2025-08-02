@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-import formatResponse from './middlewares/formatResponse.middleware.js';
+import formatResponse from './middlewares/formatResponse.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
 import authRouter from './routes/auth.routes.js';
 import chatRouter from './routes/chat.routes.js';

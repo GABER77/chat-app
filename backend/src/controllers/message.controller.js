@@ -1,4 +1,4 @@
-import uploadImageToCloudinary from '../middlewares/imageProcessor.middleware.js';
+import uploadToCloudinary from '../middlewares/uploadToCloudinary.js';
 import Chat from '../models/chat.model.js';
 import Message from '../models/message.model.js';
 import catchAsync from '../utils/catchAsync.js';
@@ -31,11 +31,12 @@ const sendMessage = catchAsync(async (req, res, next) => {
   // Attach chatId to req.body so it can be used in the folder path for cloudinary
   req.body.chatId = chat._id;
 
-  // Upload image to Cloudinary after chatId is known
+  // Upload image to Cloudinary after chatId is available
   await new Promise((resolve, reject) => {
-    uploadImageToCloudinary({
-      folderPath: (req) => `chatApp/messages/${req.body.chatId}`,
-      imageName: 'image',
+    uploadToCloudinary({
+      imageName: (req) => `image_${req.user.id}_${Date.now()}`,
+      folderPath: (req) => `chatApp/chats/${req.body.chatId}`,
+      fieldName: 'image',
     })(req, res, (err) => {
       if (err) return reject(err);
       resolve();
@@ -49,6 +50,7 @@ const sendMessage = catchAsync(async (req, res, next) => {
     receiver,
     text,
     image: req.body.image,
+    cloudinaryPath: req.body.cloudinaryPath,
   });
 
   // Update chat with last message
@@ -69,6 +71,7 @@ const getMessages = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    results: messages.length,
     messages,
   });
 });

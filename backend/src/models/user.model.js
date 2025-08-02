@@ -49,9 +49,8 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
     immutable: true,
   },
-  cloudinaryFolder: {
+  cloudinaryPath: {
     type: String,
-    default: '',
   },
   passwordChangedAt: Date,
 });

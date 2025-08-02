@@ -25,7 +25,7 @@ const updateMe = catchAsync(async (req, res, next) => {
     req.body,
     'name',
     'email',
-    'cloudinaryFolder',
+    'cloudinaryPath',
     'profileImage'
   );
 

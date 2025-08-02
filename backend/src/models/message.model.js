@@ -25,6 +25,9 @@ const messageSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    cloudinaryPath: {
+      type: String,
+    },
     isRead: {
       type: Boolean,
       default: false,

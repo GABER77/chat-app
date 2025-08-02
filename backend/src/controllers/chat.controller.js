@@ -15,6 +15,7 @@ const getUserChats = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    results: chats.length,
     chats,
   });
 });

@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import streamifier from 'streamifier';
 import catchAsync from '../utils/catchAsync.js';
 
-const uploadImageToCloudinary = ({ folderPath, imageName }) => {
+const uploadToCloudinary = ({ imageName, folderPath, fieldName }) => {
   return catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
@@ -14,12 +14,9 @@ const uploadImageToCloudinary = ({ folderPath, imageName }) => {
       .jpeg({ quality: 90 })
       .toBuffer();
 
-    // 2. Set a consistent Cloudinary folder and public_id(Image Name)
-    const timestamp = Date.now();
-    const public_id = `${imageName}_${timestamp}`;
-
     // Evaluate the folder path
     const resolvedFolderPath = folderPath(req);
+    const resolvedImageName = imageName(req);
 
     // 3. Upload the image buffer
     const streamUpload = () =>
@@ -27,7 +24,7 @@ const uploadImageToCloudinary = ({ folderPath, imageName }) => {
         const stream = cloudinary.uploader.upload_stream(
           {
             folder: resolvedFolderPath,
-            public_id: public_id,
+            public_id: resolvedImageName,
             resource_type: 'image',
           },
           (err, result) => {
@@ -41,11 +38,11 @@ const uploadImageToCloudinary = ({ folderPath, imageName }) => {
       });
 
     // 4. Attach data to req.body
-    req.body[imageName] = await streamUpload();
-    req.body.cloudinaryFolder = resolvedFolderPath;
+    req.body[fieldName] = await streamUpload();
+    req.body.cloudinaryPath = resolvedFolderPath;
 
     next();
   });
 };
 
-export default uploadImageToCloudinary;
+export default uploadToCloudinary;
