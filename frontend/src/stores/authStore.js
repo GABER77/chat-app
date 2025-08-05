@@ -19,4 +19,17 @@ export const authStore = create((set) => ({
       set({ isCheckingAuth: false });
     }
   },
+
+  signup: async (userData) => {
+    set({ isSigningUp: true });
+    try {
+      const res = await axiosInstance.post("/auth/signup", userData);
+      set({ authUser: res.data.data.user });
+    } catch (error) {
+      console.log("Error in signup:", error);
+      throw error; // So the component can catch and show error messages
+    } finally {
+      set({ isSigningUp: false });
+    }
+  },
 }));
