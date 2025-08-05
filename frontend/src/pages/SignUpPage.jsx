@@ -57,9 +57,9 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-[#18181B]">
+    <div className="min-h-screen flex justify-center bg-base-200">
       {/* Container */}
-      <div className="w-full max-w-md px-10 pt-7 mt-7 mb-13 bg-[#1F1F23] rounded-2xl shadow-md">
+      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-md">
         {/* Logo */}
         <div className="flex justify-center mb-3">
           <div className="bg-yellow-600 p-3 rounded-lg">
@@ -170,7 +170,7 @@ const SignUpPage = () => {
         </form>
 
         {/* Redirect to login */}
-        <p className="text-center text-sm text-gray-400 mt-4">
+        <p className="text-center text-sm text-gray-400 pt-5 pb-6">
           Already have an account?
           <a href="/login" className="text-yellow-500 hover:underline ml-1">
             Login
