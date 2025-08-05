@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useAuthStore } from "../stores/authStore";
+import { authStore } from "../stores/authStore";
 
 // Protect routes for authenticated users only
-const ProtectedRoute = ({ children }) => {
-  const { authUser, isCheckingAuth } = useAuthStore();
+export const ProtectedRoute = ({ children }) => {
+  const { authUser, isCheckingAuth } = authStore();
 
   if (isCheckingAuth) {
     // Show loading spinner
@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
 
 // Redirect if user is already authenticated (for login/signup pages)
 export const RedirectIfAuth = ({ children }) => {
-  const { authUser, isCheckingAuth } = useAuthStore();
+  const { authUser, isCheckingAuth } = authStore();
 
   if (isCheckingAuth) {
     // Show loading spinner

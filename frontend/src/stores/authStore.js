@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 
-export const useAuthStore = create((set) => ({
+export const authStore = create((set) => ({
   authUser: null,
   isSigningUp: false,
   isLogingIn: false,

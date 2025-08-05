@@ -5,12 +5,12 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
-import { useAuthStore } from "./stores/authStore";
+import { authStore } from "./stores/authStore";
 import { useEffect } from "react";
 import { ProtectedRoute, RedirectIfAuth } from "./components/RouteGuards";
 
 const App = () => {
-  const { authUser, checkAuth } = useAuthStore();
+  const { authUser, checkAuth } = authStore();
 
   useEffect(() => {
     checkAuth();
