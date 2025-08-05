@@ -32,6 +32,18 @@ export const authStore = create((set) => ({
     }
   },
 
+  login: async (userData) => {
+    set({ isLogingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/login", userData);
+      set({ authUser: res.data.data.user });
+    } catch (error) {
+      throw error; // So the component can catch and show error message
+    } finally {
+      set({ isLogingIn: false });
+    }
+  },
+
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");

@@ -13,13 +13,11 @@ import { ProtectedRoute, RedirectIfAuth } from "./components/RouteGuards";
 import { Toaster } from "react-hot-toast";
 
 const App = () => {
-  const { authUser, checkAuth } = authStore();
+  const { checkAuth } = authStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  console.log({ authUser });
 
   return (
     <div>

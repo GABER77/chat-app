@@ -51,7 +51,7 @@ const SignUpPage = () => {
       await signup(formData);
       toast.success("Account created successfully");
       navigate("/"); // redirect to home on success
-    } catch (err) {
+    } catch {
       toast.error("Signup failed. Please try again");
     }
   };
@@ -59,7 +59,7 @@ const SignUpPage = () => {
   return (
     <div className="min-h-screen flex justify-center bg-base-200">
       {/* Container */}
-      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-md">
+      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-xl">
         {/* Logo */}
         <div className="flex justify-center mb-3">
           <div className="bg-yellow-600 p-3 rounded-lg">
