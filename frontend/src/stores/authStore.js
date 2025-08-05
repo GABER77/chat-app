@@ -13,7 +13,6 @@ export const authStore = create((set) => ({
       const res = await axiosInstance.get("/users/me");
       set({ authUser: res.data.data.user });
     } catch (error) {
-      console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -26,8 +25,7 @@ export const authStore = create((set) => ({
       const res = await axiosInstance.post("/auth/signup", userData);
       set({ authUser: res.data.data.user });
     } catch (error) {
-      console.log("Error in signup:", error);
-      throw error; // So the component can catch and show error messages
+      throw error; // So the component can catch and show error message
     } finally {
       set({ isSigningUp: false });
     }

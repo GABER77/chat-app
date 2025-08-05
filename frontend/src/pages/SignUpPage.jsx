@@ -2,6 +2,7 @@ import { useState } from "react";
 import { authStore } from "../stores/authStore";
 import { useNavigate } from "react-router-dom";
 import { MessageSquare, Eye, EyeOff } from "lucide-react";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const { signup, isSigningUp } = authStore();
@@ -15,28 +16,43 @@ const SignUpPage = () => {
     passwordConfirm: "",
   });
 
-  // Store any error message
-  const [error, setError] = useState("");
-
   // Handle input changes and update form state
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!formData.name.trim()) return toast.error("Full Name is required");
+    if (!formData.email.trim()) return toast.error("Email is required");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      return toast.error("Invalid email format");
+    if (!formData.password) return toast.error("Password is required");
+    if (!formData.passwordConfirm)
+      return toast.error("password Confirm is required");
+    if (!passwordRegex.test(formData.password))
+      return toast.error(
+        "Password must be at least 8 characters, include one uppercase letter and one special character"
+      );
+    if (formData.password !== formData.passwordConfirm)
+      return toast.error("Passwords do not match");
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page refresh
-    setError("");
 
-    if (formData.password !== formData.passwordConfirm) {
-      setError("Passwords do not match.");
-      return;
-    }
+    const isValid = validateForm();
+    if (isValid !== true) return; // prevent submission on validation fail
 
     try {
       await signup(formData);
+      toast.success("Account created successfully");
       navigate("/"); // redirect to home on success
     } catch (err) {
-      setError(err.response?.data?.message || "Signup failed.");
+      toast.error("Signup failed. Please try again");
     }
   };
 

@@ -1,13 +1,16 @@
-import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
+
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
-import SettingsPage from "./pages/SettingsPage";
+import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
+
+import { Routes, Route } from "react-router-dom";
 import { authStore } from "./stores/authStore";
 import { useEffect } from "react";
 import { ProtectedRoute, RedirectIfAuth } from "./components/RouteGuards";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { authUser, checkAuth } = authStore();
@@ -53,14 +56,6 @@ const App = () => {
           }
         />
         <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <SettingsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/profile"
           element={
             <ProtectedRoute>
@@ -68,7 +63,17 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
+
+      <Toaster />
     </div>
   );
 };
