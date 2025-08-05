@@ -1,2 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Hide the native password reveal icon in Chrome, Edge, and Safari */
+input::-ms-reveal,
+input::-ms-clear,
+input::-webkit-password-toggle-button {
+  display: none;
+}
