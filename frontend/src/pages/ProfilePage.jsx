@@ -134,11 +134,22 @@ const ProfilePage = () => {
             />
           </div>
 
+          {/* Static Account Information */}
+          <h2 className="text-lg font-medium mt-7 mb-3">Account Information</h2>
+          <div className="flex items-center justify-between mt-5 pb-4 border-b border-zinc-700">
+            <span>Member Since</span>
+            <span>{authUser.createdAt?.split("T")[0]}</span>
+          </div>
+          <div className="flex items-center justify-between pb-1">
+            <span>Account Status</span>
+            <span className="text-green-500">Active</span>
+          </div>
+
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isUpdatingProfile}
-            className="w-full cursor-pointer mt-1 bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-3 rounded-md transition"
+            className="w-full cursor-pointer mt-1 mb-7 bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2.5 rounded-md transition"
           >
             {isUpdatingProfile ? "Updating..." : "Update Profile"}
           </button>
