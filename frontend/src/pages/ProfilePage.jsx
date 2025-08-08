@@ -82,7 +82,7 @@ const ProfilePage = () => {
               />
               <label
                 htmlFor="avatar-upload"
-                className={`absolute bottom-0 right-0 bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200
+                className={`absolute bottom-0 bg-zinc-300 right-0 bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200
                   ${
                     isUpdatingProfile ? "animate-pulse pointer-events-none" : ""
                   }
@@ -135,12 +135,14 @@ const ProfilePage = () => {
           </div>
 
           {/* Static Account Information */}
-          <h2 className="text-lg font-medium mt-7 mb-3">Account Information</h2>
-          <div className="flex items-center justify-between mt-5 pb-4 border-b border-zinc-700">
+          <h2 className="text-lg font-medium mt-7 mb-3 text-white">
+            Account Information
+          </h2>
+          <div className="flex items-center text-white justify-between mt-5 pb-4 border-b border-zinc-700">
             <span>Member Since</span>
             <span>{authUser.createdAt?.split("T")[0]}</span>
           </div>
-          <div className="flex items-center justify-between pb-1">
+          <div className="flex items-center text-white justify-between pb-1">
             <span>Account Status</span>
             <span className="text-green-500">Active</span>
           </div>

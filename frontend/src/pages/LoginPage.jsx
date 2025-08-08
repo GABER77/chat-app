@@ -46,7 +46,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-base-200">
+    <div className="min-h-screen flex justify-center">
       {/* Container */}
       <div className="w-full max-w-md px-10 pt-10 mt-30 mb-15 bg-[#1F1F23] rounded-2xl shadow-xl">
         {/* Logo */}
@@ -68,14 +68,14 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {/* Email input */}
           <div>
-            <label className="block text-sm py-2">Email</label>
+            <label className="text-sm text-white">Email</label>
             <input
               type="email"
               name="email"
               placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-[#2A2A31] text-white border border-gray-700 rounded px-3 py-2 focus:border-yellow-600 focus:outline-none"
+              className="w-full mt-1.5 bg-[#2A2A31] text-white border border-gray-700 rounded px-3 py-2 focus:border-yellow-600 focus:outline-none"
             />
           </div>
 

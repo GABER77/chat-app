@@ -57,7 +57,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-base-200">
+    <div className="min-h-screen flex justify-center">
       {/* Container */}
       <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-xl">
         {/* Logo */}
@@ -79,7 +79,7 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {/* Name input */}
           <div>
-            <label className="block text-sm py-2">Full Name</label>
+            <label className="block text-sm py-2 text-white">Full Name</label>
             <input
               type="text"
               name="name"
@@ -92,7 +92,7 @@ const SignUpPage = () => {
 
           {/* Email input */}
           <div>
-            <label className="block text-sm py-2">Email</label>
+            <label className="block text-sm py-2 text-white">Email</label>
             <input
               type="email"
               name="email"
