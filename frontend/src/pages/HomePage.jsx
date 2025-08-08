@@ -1,5 +1,9 @@
+import { chatStore } from "../stores/chatStore";
+
 const HomePage = () => {
-  return <div>HomePage</div>;
+  const { selectedChat } = chatStore();
+
+  return <div></div>;
 };
 
 export default HomePage;
