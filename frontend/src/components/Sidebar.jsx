@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { chatStore } from "../stores/chatStore";
-import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
 import { authStore } from "../stores/authStore";
 
@@ -16,7 +15,7 @@ const Sidebar = () => {
     getChats();
   }, [getChats]);
 
-  if (isChatsLoading) return <SidebarSkeleton />;
+  if (isChatsLoading) return <div>Loading...</div>;
 
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
@@ -77,7 +76,7 @@ const Sidebar = () => {
           );
         })}
 
-        {/* ===== EMPTY STATE ===== */}
+        {/* Empty State */}
         {chats.length === 0 && (
           <div className="text-center text-zinc-400 py-4">No online users</div>
         )}

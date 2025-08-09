@@ -122,9 +122,9 @@ const SignUpPage = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (
-                  <EyeOff className="size-5 text-base-content/40" />
+                  <EyeOff className="size-5" />
                 ) : (
-                  <Eye className="size-5 text-base-content/40" />
+                  <Eye className="size-5" />
                 )}
               </button>
             </div>
@@ -151,9 +151,9 @@ const SignUpPage = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? (
-                  <EyeOff className="size-5 text-base-content/40" />
+                  <EyeOff className="size-5" />
                 ) : (
-                  <Eye className="size-5 text-base-content/40" />
+                  <Eye className="size-5" />
                 )}
               </button>
             </div>

@@ -5,7 +5,7 @@ const getUserChats = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
 
   const chats = await Chat.find({ participants: userId })
-    .populate('participants', 'name image')
+    .populate('participants', 'name profileImage')
     .populate({
       path: 'lastMessage',
       populate: { path: 'sender', select: 'name' },
