@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Image as ImageIcon, Send, X } from "lucide-react";
 import { chatStore } from "../stores/chatStore";
+import { authStore } from "../stores/authStore";
 
 const MessageInput = () => {
   const { sendMessage, selectedChat } = chatStore();
+  const { authUser } = authStore();
+
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
+
+  // Extract the receiver from chat participants
+  const receiver = selectedChat?.participants?.find(
+    (p) => p._id !== authUser._id
+  );
 
   // Handle image file selection
   const handleImageChange = (e) => {
@@ -24,7 +32,7 @@ const MessageInput = () => {
     if (!text.trim() && !image) return;
 
     await sendMessage({
-      receiverId: selectedChat._id,
+      receiverId: receiver._id,
       text: text.trim(),
       image,
     });

@@ -15,7 +15,13 @@ const Sidebar = () => {
     getChats();
   }, [getChats]);
 
-  if (isChatsLoading) return <div>Loading...</div>;
+  // Loading Spinner
+  if (isChatsLoading)
+    return (
+      <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-transparent border-t-blue-600 rounded-full animate-spin" />
+      </aside>
+    );
 
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
@@ -40,7 +46,7 @@ const Sidebar = () => {
           return (
             <button
               key={chat._id}
-              onClick={() => setSelectedChat(receiver)} // set active chat user
+              onClick={() => setSelectedChat(chat)} // set active chat user
               className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors cursor-pointer
                 ${
                   selectedChat?._id === receiver._id
