@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { chatStore } from "../stores/chatStore";
 import { authStore } from "../stores/authStore";
 import ChatHeader from "./ChatHeader";
@@ -9,17 +9,45 @@ const ChatContainer = () => {
     chatStore();
   const { authUser } = authStore();
 
-  useEffect(() => {
-    getMessages(selectedChat._id);
-  }, [selectedChat._id, getMessages]);
+  // Track if it's the first time loading messages for this chat
+  const isFirstLoad = useRef(true);
 
-  // Loading Spinner
-  if (isMessagesLoading)
+  // Fetch messages when selected chat changes
+  useEffect(() => {
+    if (selectedChat?._id) {
+      getMessages(selectedChat._id);
+      isFirstLoad.current = true; // Reset scroll flag for instant jump to the bottom
+    }
+  }, [selectedChat?._id, getMessages]);
+
+  // Scroll chat to bottom when messages update
+  useEffect(() => {
+    if (!messages.length) return; // Don't scroll if no messages
+
+    const container = document.getElementById("messagesContainer");
+    if (!container) return;
+
+    if (isFirstLoad.current) {
+      // First load: jump instantly to bottom
+      container.scrollTop = container.scrollHeight;
+      isFirstLoad.current = false; // Mark first load done
+    } else {
+      // Smooth scroll to bottom
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+
+  // Loading spinner
+  if (isMessagesLoading) {
     return (
       <div className="flex justify-center items-center flex-1">
         <div className="w-12 h-12 border-4 border-transparent border-t-blue-600 rounded-full animate-spin" />
       </div>
     );
+  }
 
   return (
     <div className="flex-1 flex flex-col overflow-auto">
@@ -27,31 +55,31 @@ const ChatContainer = () => {
       <ChatHeader />
 
       {/* Messages container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div
+        id="messagesContainer"
+        className="flex-1 overflow-y-auto p-4 space-y-3"
+      >
         {messages.length > 0 ? (
           messages.map((msg) => {
-            // Determine if the message was sent by the logged-in user
+            // Check if this message was sent by the logged-in user
             const isOwnMessage =
               String(msg.sender?._id || msg.sender) === String(authUser._id);
 
             return (
               <div
                 key={msg._id}
-                // Align right if my message, left if receiver's message
                 className={`flex ${
                   isOwnMessage ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
-                  // Limit max width so long text doesn't stretch full screen
-                  className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-lg shadow-md 
-                    ${
-                      isOwnMessage
-                        ? "bg-amber-500 text-black" // My messages
-                        : "bg-zinc-700 text-white" // Their messages
-                    }`}
+                  className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-lg shadow-md ${
+                    isOwnMessage
+                      ? "bg-amber-500 text-black"
+                      : "bg-zinc-700 text-white"
+                  }`}
                 >
-                  {/* If the message has an image, render it above the text */}
+                  {/* Render image if message contains one */}
                   {msg.image && (
                     <img
                       src={msg.image}
@@ -60,19 +88,19 @@ const ChatContainer = () => {
                     />
                   )}
 
-                  {/* If the message has text, render it */}
+                  {/* Render message text */}
                   {msg.text && <p>{msg.text}</p>}
                 </div>
               </div>
             );
           })
         ) : (
-          // Empty state message
+          // Show placeholder when no messages exist yet
           <p className="text-center text-gray-400">No messages yet</p>
         )}
       </div>
 
-      {/* Message input box */}
+      {/* Input box for sending new messages */}
       <MessageInput />
     </div>
   );
