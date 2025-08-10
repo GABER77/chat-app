@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import toast from "react-hot-toast";
 
-export const chatStore = create((set) => ({
+export const chatStore = create((set, get) => ({
   chats: [],
   messages: [],
   selectedChat: null,
@@ -27,6 +28,21 @@ export const chatStore = create((set) => ({
       // No Catch because the calling component will catch the error
     } finally {
       set({ isMessagesLoading: false });
+    }
+  },
+
+  sendMessage: async ({ receiverId, text, image }) => {
+    const { messages } = get();
+    try {
+      const formData = new FormData();
+      formData.append("receiver", receiverId);
+      if (text?.trim()) formData.append("text", text);
+      if (image) formData.append("image", image);
+
+      const res = await axiosInstance.post(`/messages`, formData);
+      set({ messages: [...messages, res.data.data.message] });
+    } catch (error) {
+      toast.error(`Failed to send message: ${error.message}`);
     }
   },
 
