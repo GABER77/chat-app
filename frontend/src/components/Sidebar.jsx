@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { chatStore } from "../stores/chatStore";
 import { Users } from "lucide-react";
 import { authStore } from "../stores/authStore";
+import UserSearchBar from "./UserSearchBar";
 
 const Sidebar = () => {
   const { getChats, chats, selectedChat, setSelectedChat, isChatsLoading } =
@@ -34,6 +35,9 @@ const Sidebar = () => {
           </span>
         </div>
       </div>
+
+      {/* Search Bar */}
+      <UserSearchBar />
 
       {/* Chat List */}
       <div className="overflow-y-auto w-full py-3">

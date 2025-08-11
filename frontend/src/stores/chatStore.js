@@ -57,10 +57,11 @@ export const chatStore = create((set, get) => ({
     set({ isSearching: true });
     try {
       const res = await axiosInstance.get(`/users/search`, {
-        params: { query: searchText },
+        params: { searchText },
       });
       set({ searchResults: res.data.data.users || [] });
-      // No Catch because the calling component will catch the error
+    } catch {
+      toast.error("Failed to search users");
     } finally {
       set({ isSearching: false });
     }
