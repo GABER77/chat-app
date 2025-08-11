@@ -5,9 +5,11 @@ import toast from "react-hot-toast";
 export const chatStore = create((set, get) => ({
   chats: [],
   messages: [],
+  searchResults: [],
   selectedChat: null,
   isChatsLoading: false,
   isMessagesLoading: false,
+  isSearching: false,
 
   getChats: async () => {
     set({ isChatsLoading: true });
@@ -43,6 +45,24 @@ export const chatStore = create((set, get) => ({
       set({ messages: [...messages, res.data.data.message] });
     } catch (error) {
       toast.error(`Failed to send message: ${error.message}`);
+    }
+  },
+
+  searchUsers: async (searchText) => {
+    if (!searchText.trim()) {
+      set({ searchResults: [] });
+      return;
+    }
+
+    set({ isSearching: true });
+    try {
+      const res = await axiosInstance.get(`/users/search`, {
+        params: { query: searchText },
+      });
+      set({ searchResults: res.data.data.users || [] });
+      // No Catch because the calling component will catch the error
+    } finally {
+      set({ isSearching: false });
     }
   },
 
