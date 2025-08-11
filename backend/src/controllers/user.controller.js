@@ -57,7 +57,7 @@ const searchUsers = catchAsync(async (req, res, next) => {
   const users = await User.find({
     name: { $regex: searchQuery, $options: 'i' }, // makes the search case-insensitive
     _id: { $ne: req.user._id }, // exclude self
-  }).select('name');
+  }).select('name profileImage');
 
   res.status(200).json({
     status: 'success',

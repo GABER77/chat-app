@@ -34,7 +34,7 @@ export const chatStore = create((set, get) => ({
   },
 
   sendMessage: async ({ receiverId, text, image }) => {
-    const { messages } = get();
+    const { messages, chats, getChats } = get();
     try {
       const formData = new FormData();
       formData.append("receiver", receiverId);
@@ -43,6 +43,15 @@ export const chatStore = create((set, get) => ({
 
       const res = await axiosInstance.post(`/messages`, formData);
       set({ messages: [...messages, res.data.data.message] });
+
+      // Refresh chats so the sidebar updates with the new chat
+      const chatExists = chats.some((chat) =>
+        chat.participants.some((p) => p._id === receiverId)
+      );
+
+      if (!chatExists) {
+        await getChats();
+      }
     } catch (error) {
       toast.error(`Failed to send message: ${error.message}`);
     }
