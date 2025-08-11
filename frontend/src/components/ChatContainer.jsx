@@ -17,6 +17,9 @@ const ChatContainer = () => {
     if (selectedChat?._id) {
       getMessages(selectedChat._id);
       isFirstLoad.current = true; // Reset scroll flag for instant jump to the bottom
+    } else {
+      // New chat with no messages yet
+      chatStore.setState({ messages: [] });
     }
   }, [selectedChat?._id, getMessages]);
 

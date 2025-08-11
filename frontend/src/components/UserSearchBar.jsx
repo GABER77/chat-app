@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { chatStore } from "../stores/chatStore";
+import { authStore } from "../stores/authStore";
 
 export default function UserSearchBar() {
   const [searchText, setSearchText] = useState("");
 
+  const { authUser } = authStore();
   const { searchUsers, searchResults, isSearching, setSelectedChat } =
     chatStore();
 
@@ -42,7 +44,11 @@ export default function UserSearchBar() {
               <div
                 key={user._id}
                 onClick={() => {
-                  setSelectedChat(user); // Select user for chat
+                  setSelectedChat({
+                    // fake a chat object
+                    _id: null,
+                    participants: [authUser, user],
+                  });
                   setSearchText(""); // Clear input
                   chatStore.setState({ searchResults: [] }); // Clear search results
                 }}
