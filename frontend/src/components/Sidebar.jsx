@@ -47,39 +47,47 @@ const Sidebar = () => {
             (p) => p._id !== authUser._id
           );
 
+          // Extract last message text and sender name or "You"
+          let lastMsgPreview = "No messages yet";
+          if (chat.lastMessage) {
+            const isSentByAuthUser =
+              chat.lastMessage.sender._id === authUser._id;
+            const senderName = isSentByAuthUser
+              ? "You"
+              : chat.lastMessage.sender.name;
+            lastMsgPreview = `${senderName}: ${chat.lastMessage.text}`;
+          }
+
           return (
             <button
               key={chat._id}
               onClick={() => setSelectedChat(chat)} // set active chat user
               className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors cursor-pointer
-                ${
-                  selectedChat?._id === receiver._id
-                    ? "bg-[#1d232a] ring-1 ring-base-300" // highlight if selected
-                    : ""
-                }
-              `}
+            ${
+              selectedChat?._id === chat._id
+                ? "bg-[#282c31] ring-1 ring-base-300"
+                : ""
+            }
+            `}
             >
-              {/* Profile Image */}
+              {/* Profile Image with online dot */}
               <div className="relative mx-auto lg:mx-0">
                 <img
                   src={receiver.profileImage || "/default-avatar.jpg"}
                   className="size-12 object-cover rounded-full"
                 />
-
-                {/* Online Status*/}
                 {onlineUsers.includes(receiver._id) && (
-                  <span
-                    className="absolute bottom-0 right-0 size-3 bg-green-500 
-                    rounded-full ring-2 ring-zinc-900"
-                  />
+                  <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-zinc-900" />
                 )}
               </div>
 
-              {/* User Info */}
-              <div className="hidden lg:block text-left min-w-0">
-                <div className="font-medium text-white">{receiver.name}</div>
-                <div className="text-sm text-zinc-400">
-                  {onlineUsers.includes(receiver._id) ? "Online" : "Offline"}
+              {/* User Info + Last Message Preview */}
+              <div className="hidden lg:flex flex-col text-left min-w-0 overflow-hidden">
+                <div className="font-medium text-white truncate">
+                  {receiver.name}
+                </div>
+                <div className="text-sm text-zinc-400 truncate">
+                  {lastMsgPreview}
                 </div>
               </div>
             </button>
