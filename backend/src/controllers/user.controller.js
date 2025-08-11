@@ -48,9 +48,27 @@ const getMe = catchAsync(async (req, res, next) => {
   });
 });
 
+const searchUsers = catchAsync(async (req, res, next) => {
+  const searchQuery = req.query.searchText;
+  if (!searchQuery) {
+    return res.status(200).json({ status: 'success', users: [] });
+  }
+
+  const users = await User.find({
+    name: { $regex: searchQuery, $options: 'i' }, // makes the search case-insensitive
+    _id: { $ne: req.user._id }, // exclude self
+  }).select('name');
+
+  res.status(200).json({
+    status: 'success',
+    users,
+  });
+});
+
 const userController = {
   updateMe,
   getMe,
+  searchUsers,
 };
 
 export default userController;

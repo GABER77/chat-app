@@ -11,6 +11,8 @@ router.use(protect);
 
 router.get('/me', userController.getMe);
 
+router.get('/search', userController.searchUsers);
+
 router.patch(
   '/update-me',
   uploadImageToBuffer('profileImage'),
