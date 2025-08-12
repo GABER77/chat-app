@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { Socket } from "socket.io-client";
+import { authStore } from "./authStore";
 
 export const chatStore = create((set, get) => ({
   chats: [],
@@ -77,4 +79,31 @@ export const chatStore = create((set, get) => ({
   },
 
   setSelectedChat: (selectedChat) => set({ selectedChat }),
+
+  // >>>>>>>>>> Realtime Chat Updates >>>>>>>>>>
+
+  subscribeToMessages: () => {
+    // No chat selected, no need to listen for messages
+    const { selectedChat } = get();
+    if (!selectedChat) return;
+
+    const socket = authStore.getState().socket;
+    if (!socket) return; // Socket connection not created yet
+
+    socket.off("newMessage"); // Remove previous listeners to avoid duplicates
+    // Listen for incoming 'newMessage' events
+    socket.on("newMessage", (newMessage) => {
+      // Update the messages array by adding the new message
+      set({
+        messages: [...get().messages, newMessage],
+      });
+    });
+  },
+
+  unsubscribeFromMessages: () => {
+    const socket = authStore.getState().socket;
+    if (!socket) return; // If no socket, nothing to unsubscribe from
+    // Remove the 'newMessage' event listener to stop receiving new messages
+    socket.off("newMessage");
+  },
 }));
