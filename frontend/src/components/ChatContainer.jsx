@@ -5,43 +5,42 @@ import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 
 const ChatContainer = () => {
-  const { messages, getMessages, isMessagesLoading, selectedChat } =
-    chatStore();
+  const {
+    messages,
+    getMessages,
+    isMessagesLoading,
+    selectedChat,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = chatStore();
   const { authUser } = authStore();
 
-  // Track if it's the first time loading messages for this chat
-  const isFirstLoad = useRef(true);
+  // Scroll chat to bottom when messages update
+  const messageEndRef = useRef(null);
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   // Fetch messages when selected chat changes
   useEffect(() => {
     if (selectedChat?._id) {
       getMessages(selectedChat._id);
-      isFirstLoad.current = true; // Reset scroll flag for instant jump to the bottom
+      subscribeToMessages();
+
+      // Cleanup function: React calls it right before the effect runs again
+      return () => unsubscribeFromMessages();
     } else {
-      // New chat with no messages yet
+      // New chat with no messages
       chatStore.setState({ messages: [] });
     }
-  }, [selectedChat?._id, getMessages]);
-
-  // Scroll chat to bottom when messages update
-  useEffect(() => {
-    if (!messages.length) return; // Don't scroll if no messages
-
-    const container = document.getElementById("messagesContainer");
-    if (!container) return;
-
-    if (isFirstLoad.current) {
-      // First load: jump instantly to bottom
-      container.scrollTop = container.scrollHeight;
-      isFirstLoad.current = false; // Mark first load done
-    } else {
-      // Smooth scroll to bottom
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [messages]);
+  }, [
+    selectedChat?._id,
+    getMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  ]);
 
   // Loading spinner
   if (isMessagesLoading) {
@@ -58,10 +57,7 @@ const ChatContainer = () => {
       <ChatHeader />
 
       {/* Messages container */}
-      <div
-        id="messagesContainer"
-        className="flex-1 overflow-y-auto p-4 space-y-3"
-      >
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.length > 0 ? (
           messages.map((msg) => {
             // Check if this message was sent by the logged-in user
@@ -74,6 +70,7 @@ const ChatContainer = () => {
                 className={`flex ${
                   isOwnMessage ? "justify-end" : "justify-start"
                 }`}
+                ref={messageEndRef}
               >
                 <div
                   className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-lg shadow-md ${
