@@ -2,7 +2,7 @@ import './config/loadEnv.js';
 import app from './app.js';
 import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
-import initSocket from './utils/socket.js';
+import { initSocket } from './utils/socket.js';
 import http from 'http';
 
 // Database & Cloudinary connections

@@ -1,6 +1,9 @@
 import { Server } from 'socket.io';
 
-export default function initSocket(server) {
+// Map to store online users: userId -> socketId
+const onlineUsers = new Map();
+
+export function initSocket(server) {
   // Create a new Socket.IO server and bind it to the HTTP server
   const io = new Server(server, {
     cors: {
@@ -8,9 +11,6 @@ export default function initSocket(server) {
       credentials: true, // Allow cookies
     },
   });
-
-  // Map to store online users: userId -> socketId
-  const onlineUsers = new Map();
 
   // Listen for new users connections
   io.on('connection', (socket) => {
@@ -37,4 +37,8 @@ export default function initSocket(server) {
       }
     });
   });
+}
+
+export function getReceiverSocketId(userId) {
+  return onlineUsers.get(userId);
 }
