@@ -28,10 +28,6 @@ const messageSchema = new mongoose.Schema(
     cloudinaryPath: {
       type: String,
     },
-    isRead: {
-      type: Boolean,
-      default: false,
-    },
   },
   { timestamps: true } // Automatically adds createdAt & updatedAt to the document
 );

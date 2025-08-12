@@ -12,11 +12,6 @@ const ChatContainer = () => {
   // Track if it's the first time loading messages for this chat
   const isFirstLoad = useRef(true);
 
-  // Reset isFirstLoad when component mounts
-  useEffect(() => {
-    isFirstLoad.current = true;
-  }, []);
-
   // Fetch messages when selected chat changes
   useEffect(() => {
     if (selectedChat?._id) {
