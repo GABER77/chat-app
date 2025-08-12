@@ -3,9 +3,11 @@ import { Server } from 'socket.io';
 // Map to store online users: userId -> socketId
 const onlineUsers = new Map();
 
+let io;
+
 export function initSocket(server) {
   // Create a new Socket.IO server and bind it to the HTTP server
-  const io = new Server(server, {
+  io = new Server(server, {
     cors: {
       origin: 'http://localhost:5173', // Frontend URL
       credentials: true, // Allow cookies
@@ -42,3 +44,5 @@ export function initSocket(server) {
 export function getReceiverSocketId(userId) {
   return onlineUsers.get(userId);
 }
+
+export { io };

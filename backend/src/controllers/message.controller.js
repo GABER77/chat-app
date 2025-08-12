@@ -3,6 +3,7 @@ import Chat from '../models/chat.model.js';
 import Message from '../models/message.model.js';
 import catchAsync from '../utils/catchAsync.js';
 import CustomError from '../utils/customError.js';
+import { getReceiverSocketId, io } from '../utils/socket.js';
 
 const sendMessage = catchAsync(async (req, res, next) => {
   const { receiver, text } = req.body;
@@ -56,6 +57,13 @@ const sendMessage = catchAsync(async (req, res, next) => {
   // Update chat with last message
   chat.lastMessage = message._id;
   await chat.save();
+
+  // >>>>>>>>>> Realtime Chat Updates >>>>>>>>>>
+  // Check if user is online so we send him the message in realtime
+  const receiverSocketId = getReceiverSocketId(receiver);
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit('newMessage', message);
+  }
 
   res.status(201).json({
     status: 'success',
