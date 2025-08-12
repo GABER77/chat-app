@@ -8,4 +8,14 @@ export default function initSocket(server) {
       credentials: true, // Allow cookies
     },
   });
+
+  // Listen for new client connections
+  io.on('connection', (socket) => {
+    console.log('✅ New user connected:', socket.id);
+
+    // Disconnect Event
+    socket.on('disconnect', () => {
+      console.log('❌ User disconnected:', socket.id);
+    });
+  });
 }
