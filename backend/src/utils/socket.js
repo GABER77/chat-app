@@ -9,13 +9,32 @@ export default function initSocket(server) {
     },
   });
 
-  // Listen for new client connections
+  // Map to store online users: userId -> socketId
+  const onlineUsers = new Map();
+
+  // Listen for new users connections
   io.on('connection', (socket) => {
     console.log('🔌 New user connected:', socket.id);
+
+    // Get the userId which is passed from the frontend when creating the socket connection
+    const userId = socket.handshake.query.userId;
+    // If a valid userId is provided, store it in onlineUsers
+    if (userId) {
+      onlineUsers.set(userId, socket.id);
+      // Broadcast the updated list of online users to all connected users
+      io.emit('getOnlineUsers', Array.from(onlineUsers.keys()));
+    }
 
     // Disconnect Event
     socket.on('disconnect', () => {
       console.log('🔌❌ User disconnected:', socket.id);
+
+      // If this socket was associated with a userId, remove them from the online list
+      if (userId) {
+        onlineUsers.delete(userId);
+        // Broadcast the updated list of online users to all connected users
+        io.emit('getOnlineUsers', Array.from(onlineUsers.keys()));
+      }
     });
   });
 }

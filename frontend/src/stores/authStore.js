@@ -85,14 +85,22 @@ export const authStore = create((set, get) => ({
     const { socket, authUser } = get();
 
     // Only connect if the user is authenticated and no socket connection exists
-    if (!socket && authUser) {
-      const newSocket = io("http://localhost:3000", {
-        withCredentials: true, // Enable cookies
-      });
+    if (!authUser || socket?.connected) return;
 
-      // Save the socket instance in the store
-      set({ socket: newSocket });
-    }
+    // Create new socket that will try to connect to the backend
+    const newSocket = io("http://localhost:3000", {
+      query: { userId: authUser._id },
+      withCredentials: true, // Enable cookies
+    });
+
+    // Save the socket instance
+    set({ socket: newSocket });
+
+    // when backend send an updated list of online users,
+    // use it to update `onlineUsers` locally
+    newSocket.on("getOnlineUsers", (users) => {
+      set({ onlineUsers: users });
+    });
   },
 
   disconnectSocket: () => {
