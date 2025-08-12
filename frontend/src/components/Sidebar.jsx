@@ -8,9 +8,7 @@ const Sidebar = () => {
   const { getChats, chats, selectedChat, setSelectedChat, isChatsLoading } =
     chatStore();
 
-  const { authUser } = authStore();
-
-  const onlineUsers = [];
+  const { authUser, onlineUsers } = authStore();
 
   useEffect(() => {
     getChats();

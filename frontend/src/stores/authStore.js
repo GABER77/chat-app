@@ -1,18 +1,22 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import io from "socket.io-client";
 
-export const authStore = create((set) => ({
+export const authStore = create((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isLogingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  onlineUsers: [],
+  socket: null,
 
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/users/me");
       set({ authUser: res.data.data.user });
+      get().connectSocket(); // Connect to socket.io
     } catch {
       set({ authUser: null });
     } finally {
@@ -25,6 +29,7 @@ export const authStore = create((set) => ({
     try {
       const res = await axiosInstance.post("/auth/signup", userData);
       set({ authUser: res.data.data.user });
+      get().connectSocket(); // Connect to socket.io
       // No Catch because the calling component will catch the error
     } finally {
       set({ isSigningUp: false });
@@ -36,6 +41,7 @@ export const authStore = create((set) => ({
     try {
       const res = await axiosInstance.post("/auth/login", userData);
       set({ authUser: res.data.data.user });
+      get().connectSocket(); // Connect to socket.io
       // No Catch because the calling component will catch the error
     } finally {
       set({ isLogingIn: false });
@@ -46,6 +52,7 @@ export const authStore = create((set) => ({
     try {
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
+      get().disconnectSocket(); // Disconnect socket when logging out
       toast.success("Logged out successfully");
     } catch (error) {
       toast.error(error.response.data.data.message);
@@ -70,6 +77,29 @@ export const authStore = create((set) => ({
       // No Catch because the calling component will catch the error
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+
+  // >>>>>>>>>> SOCKET.IO CONNECTION >>>>>>>>>>
+  connectSocket: () => {
+    const { socket, authUser } = get();
+
+    // Only connect if the user is authenticated and no socket connection exists
+    if (!socket && authUser) {
+      const newSocket = io("http://localhost:3000", {
+        withCredentials: true, // Enable cookies
+      });
+
+      // Save the socket instance in the store
+      set({ socket: newSocket });
+    }
+  },
+
+  disconnectSocket: () => {
+    const { socket } = get();
+    if (socket) {
+      socket.disconnect(); // Close the WebSocket connection
+      set({ socket: null }); // Remove socket reference from store
     }
   },
 }));

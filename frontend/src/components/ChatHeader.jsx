@@ -4,7 +4,7 @@ import { authStore } from "../stores/authStore";
 
 const ChatHeader = () => {
   const { selectedChat, setSelectedChat } = chatStore();
-  const { onlineUsers = [], authUser } = authStore();
+  const { authUser, onlineUsers } = authStore();
 
   // If no chat is selected, don't render anything
   if (!selectedChat) return null;
