@@ -24,7 +24,7 @@ export default function UserSearchBar() {
         placeholder="Search users..."
         value={searchText}
         onChange={handleChange}
-        className="w-full p-2 rounded-md border border-gray-300 placeholder-gray-400 focus:outline-none  focus:border-yellow-500 dark:text-white"
+        className="w-full p-2 rounded-md border placeholder:text-sm lg:placeholder:text-base border-[#ca9767] placeholder-gray-400 focus:outline-none  dark:text-white"
       />
 
       {/* Dropdown with search results */}

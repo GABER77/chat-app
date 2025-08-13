@@ -67,8 +67,8 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen flex justify-center bg-base-200">
       <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-xl">
-        <h1 className="text-2xl font-semibold text-white">Profile</h1>
-        <p className="mt-2 text-gray-400">Your profile information</p>
+        <h1 className="text-2xl font-semibold text-[#ca9767]">Profile</h1>
+        <p className="mt-2 text-[#ca9767]">Your profile information</p>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 mt-6">
@@ -108,7 +108,7 @@ const ProfilePage = () => {
 
           {/* Name Field */}
           <div>
-            <label className="block text-sm text-gray-300 mb-1">
+            <label className="block text-sm text-[#ca9767] mb-1">
               Full Name
             </label>
             <input
@@ -123,7 +123,7 @@ const ProfilePage = () => {
 
           {/* Email Field */}
           <div>
-            <label className="block text-sm text-gray-300 mb-1">Email</label>
+            <label className="block text-sm text-[#ca9767] mb-1">Email</label>
             <input
               type="email"
               name="email"
@@ -135,14 +135,14 @@ const ProfilePage = () => {
           </div>
 
           {/* Static Account Information */}
-          <h2 className="text-lg font-medium mt-7 mb-3 text-white">
+          <h2 className="text-lg font-medium mt-7 mb-3 text-[#ca9767]">
             Account Information
           </h2>
-          <div className="flex items-center text-white justify-between mt-5 pb-4 border-b border-zinc-700">
+          <div className="flex items-center text-[#ca9767] justify-between mt-5 pb-4 border-b border-zinc-700">
             <span>Member Since</span>
             <span>{authUser.createdAt?.split("T")[0]}</span>
           </div>
-          <div className="flex items-center text-white justify-between pb-1">
+          <div className="flex items-center text-[#ca9767] justify-between pb-1">
             <span>Account Status</span>
             <span className="text-green-500">Active</span>
           </div>
@@ -151,7 +151,7 @@ const ProfilePage = () => {
           <button
             type="submit"
             disabled={isUpdatingProfile}
-            className="w-full cursor-pointer mt-1 mb-7 bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2.5 rounded-md transition"
+            className="w-full cursor-pointer mt-1 mb-7 bg-[#d77f2d] hover:bg-[#ac6d2f] text-black font-semibold py-2.5 rounded-md transition"
           >
             {isUpdatingProfile ? "Updating..." : "Update Profile"}
           </button>

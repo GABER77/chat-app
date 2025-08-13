@@ -30,8 +30,14 @@ const ChatHeader = () => {
 
           {/* User info */}
           <div>
-            <h3 className="font-medium text-white">{receiver.name}</h3>
-            <p className="text-xs text-gray-300">
+            <h3 className="font-medium text-[#ca9767]">{receiver.name}</h3>
+            <p
+              className={`text-xs ${
+                onlineUsers.includes(receiver._id)
+                  ? "text-green-400"
+                  : "text-gray-400"
+              }`}
+            >
               {onlineUsers.includes(receiver._id) ? "Online" : "Offline"}
             </p>
           </div>
@@ -39,7 +45,7 @@ const ChatHeader = () => {
 
         {/* Close button */}
         <button
-          className="text-white cursor-pointer"
+          className="text-[#ca9767] cursor-pointer"
           onClick={() => setSelectedChat(null)}
         >
           <X />

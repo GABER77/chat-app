@@ -27,8 +27,8 @@ const Sidebar = () => {
       {/* Title */}
       <div className="border-b border-base-300 w-full p-5">
         <div className="flex items-center gap-2">
-          <Users className="size-6 text-white" />
-          <span className="font-medium hidden lg:block text-white">
+          <Users className="size-6 text-[#ca9767]" />
+          <span className="font-medium hidden lg:block text-[#ca9767]">
             Contacts
           </span>
         </div>
@@ -81,7 +81,7 @@ const Sidebar = () => {
 
               {/* User Info + Last Message Preview */}
               <div className="hidden lg:flex flex-col text-left min-w-0 overflow-hidden">
-                <div className="font-medium text-white truncate">
+                <div className="font-medium text-[#ca9767] truncate">
                   {receiver.name}
                 </div>
                 <div className="text-sm text-zinc-400 truncate">

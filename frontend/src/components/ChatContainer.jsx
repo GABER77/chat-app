@@ -75,8 +75,8 @@ const ChatContainer = () => {
                 <div
                   className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-lg shadow-md ${
                     isOwnMessage
-                      ? "bg-amber-500 text-black"
-                      : "bg-zinc-700 text-white"
+                      ? "bg-[#d88b43] text-black"
+                      : "bg-[#2c2b29] text-white"
                   }`}
                 >
                   {/* Render image if message contains one */}

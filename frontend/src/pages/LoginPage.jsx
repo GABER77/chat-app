@@ -48,7 +48,7 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex justify-center">
       {/* Container */}
-      <div className="w-full max-w-md px-10 pt-10 mt-30 mb-15 bg-[#1F1F23] rounded-2xl shadow-xl">
+      <div className="w-full max-w-md px-10 pt-10 mt-30 mb-15 bg-[#2a1d2a] rounded-2xl shadow-xl">
         {/* Logo */}
         <div className="flex justify-center mb-3">
           <div className="bg-yellow-600 p-3 rounded-lg">
@@ -57,10 +57,10 @@ const LoginPage = () => {
         </div>
 
         {/* Headings */}
-        <h2 className="text-3xl font-bold text-white text-center mb-2">
+        <h2 className="text-3xl font-bold text-[#cb9059] text-center mb-2">
           Welcome Back
         </h2>
-        <p className="text-sm text-gray-400 text-center mb-4">
+        <p className="text-sm text-white text-center mb-4">
           Sign in to your account
         </p>
 
@@ -68,7 +68,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {/* Email input */}
           <div>
-            <label className="text-sm text-white">Email</label>
+            <label className="text-sm text-[#ca9767]">Email</label>
             <input
               type="email"
               name="email"
@@ -81,7 +81,9 @@ const LoginPage = () => {
 
           {/* Password input */}
           <div className="mt-4">
-            <label className="block text-sm text-gray-300 py-2">Password</label>
+            <label className="block text-sm text-[#cb9059] py-2">
+              Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -110,7 +112,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={isLogingIn}
-            className="w-full mt-5 bg-yellow-600 hover:bg-yellow-700 text-black cursor-pointer font-semibold py-2 rounded-md transition"
+            className="w-full mt-5 bg-[#d77f2d] hover:bg-[#ac6d2f] text-black cursor-pointer font-semibold py-2 rounded-md transition"
           >
             {isLogingIn ? "Loading..." : "Login"}
           </button>

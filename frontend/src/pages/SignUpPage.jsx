@@ -59,7 +59,7 @@ const SignUpPage = () => {
   return (
     <div className="min-h-screen flex justify-center">
       {/* Container */}
-      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-xl">
+      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#2a1d2a] rounded-2xl shadow-xl">
         {/* Logo */}
         <div className="flex justify-center mb-3">
           <div className="bg-yellow-600 p-3 rounded-lg">
@@ -68,10 +68,13 @@ const SignUpPage = () => {
         </div>
 
         {/* Headings */}
-        <h2 className="text-3xl font-bold text-white text-center mb-2">
+        <h2 className="text-3xl font-bold text-[#cb9059] text-center mb-2">
           Create Account
         </h2>
-        <p className="text-sm text-gray-400 text-center mb-3">
+        <p
+          className="text-sm text-white
+         text-center mb-3"
+        >
           It's free and always will be
         </p>
 
@@ -79,7 +82,9 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {/* Name input */}
           <div>
-            <label className="block text-sm py-2 text-white">Full Name</label>
+            <label className="block text-sm py-2 text-[#cb9059]">
+              Full Name
+            </label>
             <input
               type="text"
               name="name"
@@ -92,7 +97,7 @@ const SignUpPage = () => {
 
           {/* Email input */}
           <div>
-            <label className="block text-sm py-2 text-white">Email</label>
+            <label className="block text-sm py-2 text-[#cb9059]">Email</label>
             <input
               type="email"
               name="email"
@@ -105,7 +110,9 @@ const SignUpPage = () => {
 
           {/* Password input */}
           <div>
-            <label className="block text-sm text-gray-300 py-2">Password</label>
+            <label className="block text-sm text-[#cb9059] py-2">
+              Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -132,7 +139,7 @@ const SignUpPage = () => {
 
           {/* Password Confirm input */}
           <div>
-            <label className="block text-sm text-gray-300 py-2">
+            <label className="block text-sm text-[#cb9059] py-2">
               Password Confirm
             </label>
             <div className="relative pb-3">
@@ -163,7 +170,7 @@ const SignUpPage = () => {
           <button
             type="submit"
             disabled={isSigningUp}
-            className="w-full bg-yellow-600 hover:bg-yellow-700 text-black cursor-pointer font-semibold py-2 rounded-md transition"
+            className="w-full bg-[#d77f2d] hover:bg-[#ac6d2f] text-black cursor-pointer font-semibold py-2 rounded-md transition"
           >
             {isSigningUp ? "Loading..." : "Sign Up"}
           </button>
