@@ -91,8 +91,12 @@ export const chatStore = create((set, get) => ({
     if (!socket) return; // Socket connection not created yet
 
     socket.off("newMessage"); // Remove previous listeners to avoid duplicates
+
     // Listen for incoming 'newMessage' events
     socket.on("newMessage", (newMessage) => {
+      // Check if the message belongs to the currently selected chat
+      if (newMessage.chatId !== selectedChat._id) return;
+
       // Update the messages array by adding the new message
       set({
         messages: [...get().messages, newMessage],
