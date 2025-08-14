@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import helmet from 'helmet';
 
 import formatResponse from './middlewares/formatResponse.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
@@ -20,6 +21,9 @@ app.use(
     credentials: true, // Allow cookies
   })
 );
+
+// Set secure HTTP headers
+app.use(helmet());
 
 // Body parser, Reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
