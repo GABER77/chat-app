@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import expressMongoSanitize from '@exortek/express-mongo-sanitize';
+import { xss } from 'express-xss-sanitizer';
 
 import formatResponse from './middlewares/formatResponse.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
@@ -42,6 +43,9 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Sanitize against NoSQL operator injection
 app.use(expressMongoSanitize());
+
+// Data sanitization against XSS(Cross-Site Scripting) attacks
+app.use(xss());
 
 // Reading data from the cookies (req.cookies)
 app.use(cookieParser());
