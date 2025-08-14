@@ -2,6 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 import formatResponse from './middlewares/formatResponse.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
@@ -24,6 +25,14 @@ app.use(
 
 // Set secure HTTP headers
 app.use(helmet());
+
+// Limit requests from same IP
+const limiter = rateLimit({
+  limit: 500,
+  windowMs: 60 * 60 * 1000, // Maximum of 500 request in 1 hour
+  message: 'Too many requests from this IP, please try again after an hour',
+});
+app.use('/api', limiter);
 
 // Body parser, Reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
