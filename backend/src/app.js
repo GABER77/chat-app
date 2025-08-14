@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import compression from 'compression';
 
 import formatResponse from './middlewares/formatResponse.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
@@ -43,6 +44,9 @@ app.use(cookieParser());
 
 // Format all responses with API version and data wrapper
 app.use(formatResponse);
+
+// Enable compression to speed up response delivery
+app.use(compression());
 
 // >>>>>>>>>>>>>>>>>>>>>>>>> ROUTES >>>>>>>>>>>>>>>>>>>>>>>>>
 
