@@ -4,6 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
+import expressMongoSanitize from '@exortek/express-mongo-sanitize';
 
 import formatResponse from './middlewares/formatResponse.js';
 import globalErrorHandler from './utils/globalErrorHandler.js';
@@ -38,6 +39,9 @@ app.use('/api', limiter);
 // Body parser, Reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+// Sanitize against NoSQL operator injection
+app.use(expressMongoSanitize());
 
 // Reading data from the cookies (req.cookies)
 app.use(cookieParser());
