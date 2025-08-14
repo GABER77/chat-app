@@ -5,6 +5,13 @@ import connectCloudinary from './config/cloudinary.js';
 import { initSocket } from './utils/socket.js';
 import http from 'http';
 
+// synchronous errors
+process.on('uncaughtException', (err) => {
+  console.log('❌ Uncaught Exception, Shutting down...');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
 // Database & Cloudinary connections
 await connectDB();
 await connectCloudinary();
@@ -21,3 +28,12 @@ const port = process.env.PORT || 8000;
 const server = httpServer.listen(port, () =>
   console.log(`🚀 App running on port ${port}`)
 );
+
+// asynchronous errors caused by a rejected Promise
+process.on('unhandledRejection', (err) => {
+  console.log('❌ Unhandled Rejection, Shutting down...');
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});

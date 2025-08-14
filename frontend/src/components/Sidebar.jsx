@@ -63,7 +63,7 @@ const Sidebar = () => {
               className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors cursor-pointer
             ${
               selectedChat?._id === chat._id
-                ? "bg-[#282c31] ring-1 ring-base-300"
+                ? "bg-[#1e171e] ring-1 ring-base-300"
                 : ""
             }
             `}
