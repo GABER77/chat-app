@@ -94,7 +94,7 @@ const Sidebar = () => {
 
         {/* Empty State */}
         {chats.length === 0 && (
-          <div className="text-center text-zinc-400 py-4">No online users</div>
+          <div className="text-center text-zinc-400 py-4">No chats</div>
         )}
       </div>
     </aside>

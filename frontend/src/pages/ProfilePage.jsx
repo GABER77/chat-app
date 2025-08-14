@@ -66,7 +66,7 @@ const ProfilePage = () => {
 
   return (
     <div className="min-h-screen flex justify-center bg-base-200">
-      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#1F1F23] rounded-2xl shadow-xl">
+      <div className="w-full max-w-md px-10 pt-7 mt-23 mb-7 bg-[#2a1d2a] rounded-2xl shadow-xl">
         <h1 className="text-2xl font-semibold text-[#ca9767]">Profile</h1>
         <p className="mt-2 text-[#ca9767]">Your profile information</p>
 
