@@ -13,6 +13,7 @@ import authRouter from './routes/auth.routes.js';
 import chatRouter from './routes/chat.routes.js';
 import userRouter from './routes/user.routes.js';
 import messageRouter from './routes/message.routes.js';
+import CustomError from './utils/customError.js';
 
 const app = express();
 
@@ -50,11 +51,11 @@ app.use(xss());
 // Reading data from the cookies (req.cookies)
 app.use(cookieParser());
 
-// Format all responses with API version and data wrapper
-app.use(formatResponse);
-
 // Enable compression to speed up response delivery
 app.use(compression());
+
+// Format all responses with API version and data wrapper
+app.use(formatResponse);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>> ROUTES >>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -62,6 +63,11 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/chats', chatRouter);
 app.use('/api/messages', messageRouter);
+
+// Handle undefined routes
+app.all(/(.*)/, (req, res, next) => {
+  next(new CustomError(`Can't find ${req.originalUrl} on this server`, 404));
+});
 
 app.use(globalErrorHandler);
 
