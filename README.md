@@ -112,3 +112,13 @@ VITE_BACKEND_URL=http://localhost:3000/api
 
 - Update socket URL in `src/stores/authStore.js` to match your backend domain
 - Run the project using: `npm run dev`
+
+## **Screenshots & Previews**
+
+<img src="https://github.com/user-attachments/assets/61694dd3-3c83-4386-b10e-45d8aad8affb" width="800">
+<br><br>
+<img src="https://github.com/user-attachments/assets/72bf01bf-1fcd-4490-b88a-ddec8c0f222a" width="800">
+<br><br>
+<img src="https://github.com/user-attachments/assets/24f3ff6b-bed7-4db5-841c-7be675be78cf" width="800">
+<br><br>
+<img src="https://github.com/user-attachments/assets/827150e6-be02-4b23-a049-cd32c609256e" width="800">
